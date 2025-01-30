@@ -502,7 +502,7 @@ int main(int argc, char **argv)
  * number from A and ahi is the line number *following* the last line of
  * the A side of the region (a half-open range), and similarly for blo
  * and bhi.
- * 
+ *
  * Begin by reading the files into data areas adat and bdat.
  * Create vectors (arrays) aoffs and boffs of offsets of line starting
  * positions in the data areas. The fill_offset_vec() function runs
@@ -518,28 +518,28 @@ int main(int argc, char **argv)
  * next matching line. The A lines are traversed from last to first so
  * that the links can go forward. A hash table is used to keep the line
  * number of the most recently encountered occurrence of each line.
- * 
+ *
  * A vector bref[] contains, for each line in B, the line number of the
  * first occurrence of the matching line in A, or 0 if no A line
  * matches. The hash table is used to fill bref[], then free()'d.
- * 
+ *
  * A vector acnt[] contains, for each line in A, the number of times
  * that line occurs in A (at the first location that line occurs) or a
  * negative index of that first location. That is, if line i is the
  * first occurrence of a line, acnt[i] holds the number of occurrences
  * of that line in A, and if it's a subsequence occurrence of the same
  * line, then acnt[-acnt[i]] holds the number of occurrences.
- * 
+ *
  * Two dynamically grown lists are maintained, rstack[] and diffs[].
  * rstack[] is the recursion stack to hold regions that have not yet
  * been examined to try to find a matching region inside. diffs[] will
  * hold the bounds of the difference regions as they are located.
- * 
+ *
  * To begin the search for differences, a "dummy" difference is pushed
  * on the diffs[] list to facilitate the writing of the actual diff
  * output, and all of each file (1, arecs+1, 1, brecs+1) is pushed on
  * rstack[].
- * 
+ *
  * Then while rstack[] is nonempty, pop a region from it into (alo, ahi,
  * blo, bhi) and try to find a "best" matching region inside that
  * region. If such a match is found, push the region after it, and then
@@ -550,10 +550,10 @@ int main(int argc, char **argv)
  * Before searching for the best matching region, adjust the acnt[]
  * values for the current region (alo, ahi...) to reflect just the
  * occurrences of each A line within that region.
- * 
+ *
  * After the stack is empty, process the diffs[] list into the actual
  * diff output.
- * 
+ *
  * Function find_best_matching_region() is the heart of the algorithm.
  * It takes (alo, ahi, blo, bhi) as the current region as input and
  * returns (kalo, kahi, kblo, kbhi) as the best match, if any. Set
@@ -565,11 +565,11 @@ int main(int argc, char **argv)
  * a matching line in A, set j to that line (j = bref[i]). If it falls
  * beyond the end of the A region, or if it occurs more than lowcount
  * times in the A region, go to the next line in B and repeat.
- * 
+ *
  * If j falls before alo, then use anext[] to find the first A line in
  * the region that matches the B line (i). If none is found, continue
  * with the next line in B.
- * 
+ *
  * For each A line (j) in the current region that matches the current B
  * line (i), try to find a "best" match. First, create a region of just
  * the one line (nalo, nahi, nblo, nbhi) set from (j, j+1, i, i+1). Then
@@ -577,47 +577,47 @@ int main(int argc, char **argv)
  * the acnt[] and bref[] vectors to check for line equality. Also keep
  * track of the lowest count (from acnt[]) for any A line in the
  * matching region.
- * 
+ *
  * If this is the first matching region found, or if it is longer than
  * the best matching region found so far, or if the count is lower than
  * the count of the best matching region so far (lowcount), set this
  * region as the new best: set (kalo, kahi, kblo, kbhi) from (nalo,
  * nahi, nblo, nbhi) and set lowcount to the lowest A count in the
  * matching region.
- * 
+ *
  * Also, when a match is found, set the next line in B to be examined to
  * nbhi (skipping lines before and within the matching region). But also
  * continue looking at matching lines in A (via anext[]) if any, before
  * going on to another line in B.
- * 
+ *
  * After reaching the end of B lines (i == bhi), return 1 if any
  * matching region was found, or 0 to signify no matching region.
- * 
+ *
  * Before writing any diff output, jgit "adjusts" some diffs that are
  * insertions or deletions, attempting to make them look better. jgit
  * calls this "normalize"; my implementation calls it slider(). You may
  * have seen diffs where an insertion looks like:
- * 
+ *
  * + }
  * +
  * + static int foo()
  * + {
  * +   whatever...
  *   }
- *  
+ *
  * + more stuff
- * 
+ *
  * The actual change was
- * 
+ *
  *   }
- *  
+ *
  * + static int foo()
  * + {
  * +   whatever...
  * + }
  * +
  * + more stuff
- * 
+ *
  * The slider() function makes this adjustment. It usually makes the
  * diff more intuitive to read, but may not always.
  */
