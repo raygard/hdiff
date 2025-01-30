@@ -3,7 +3,7 @@
 `hdiff` is a version of diff that implements the _histogram_ algorithm as in jgit.
 It duplicates the output of jgit's histogram diff, and usually duplicates (or nearly duplicates) output of `git --histogram`.
 
-It operates in a manner similar to POSIX `diff`, but only supports "unified" output, and can only compare files (not files to directories or directories to directories), though it does accept `-` for either filename to signify stdin.
+It operates in a manner similar to POSIX `diff`, but only supports the default `diff` output and "unified" output formats, and can only compare files (not files to directories or directories to directories), though it does accept `-` for either filename to signify stdin.
 
 `hdiff` does not support other diff options such as `-b` (relaxing whitespace comparison) or `-r` (recursive directory compare), etc.
 
