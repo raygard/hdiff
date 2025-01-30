@@ -13,7 +13,7 @@ The code is standard C99, but also needs POSIX extensions to get file modificati
 
 There is a fairly complete explanation of the algorithm at the end of the file.
 
-I have also written a [couple](https://raygard.net/2025-01-28-how-histogram-diff-works/) of [posts](https://raygard.net/2025-01-29-a-histogram-diff-implementation/) on this on my [blog](https://raygard.net/).
+I have also written a [couple](https://raygard.net/2025/01/28/how-histogram-diff-works/) of [posts](https://raygard.net/2025/01/29/a-histogram-diff-implementation/) on this on my [blog](https://raygard.net/).
 
 ### Building
 
